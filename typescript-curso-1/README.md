@@ -50,3 +50,35 @@ Será que consegue ver o erro?
 Em qual linguagem será mais fácil observar tal erro?
 
 Obviamente está faltando dois parâmetros no objeto que está sendo criado e tal falha só aconteceria em produção com o Javascript. O Typescript por outro lado iria instruir que está errado e mesmo que você ignorasse isso, seu compilador não iria continuar até que se resolvesse o erro.
+
+## 2 - Tipagem estática
+
+Observe esse código:
+
+```ts
+import { Negociacao } from "../models/negociacao.js";
+
+export class NegociacaoController {
+  private inputData;
+  private inputQuantidade;
+  private inputValor;
+
+  constructor(data, quantidade, valor) {
+    this.inputdata = document.querySelector("#data");
+    this.inputQuantidade = document.querySelector("#quantidade");
+    this.inputValor = document.querySelector("#valor");
+  }
+
+  adiciona() {
+    const negociacao = new Negociacao(
+      this.inputData.value,
+      this.inputQuantidade.value,
+      this.inputValor.value
+    );
+  }
+}
+```
+
+Será que está errado? O Typescript irá reproduzir um erro de compilação?
+
+A resposta é Sim, está errado, e não, o typescript não irá emitir um erro de compilação porque não foi especificado tipos. Quando isso acontece o Typescript coloca um tipo implícito: `any` que significa "qualquer coisa" e que é extremamente não é recomendado usar na tipagem.

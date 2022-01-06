@@ -8,6 +8,7 @@ export class NegociacaoController {
   private negociacoes = new Negociacoes();
 
   constructor() {
+    // Obtém os elementos da árvore DOM
     this.inputData = document.querySelector("#data");
     this.inputQuantidade = document.querySelector("#quantidade");
     this.inputValor = document.querySelector("#valor");
