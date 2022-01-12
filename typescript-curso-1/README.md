@@ -35,7 +35,7 @@ export class Negociacao {
 		this._quantidade = quantidade;
 		this._valor = valor;
 	}
-
+}
 ...
 ```
 
@@ -82,3 +82,82 @@ export class NegociacaoController {
 Será que está errado? O Typescript irá reproduzir um erro de compilação?
 
 A resposta é Sim, está errado, e não, o typescript não irá emitir um erro de compilação porque não foi especificado tipos. Quando isso acontece o Typescript coloca um tipo implícito: `any` que significa "qualquer coisa" e que é extremamente não é recomendado usar na tipagem.
+
+Para resolver isso, o primeiro passo é impedir que o Typescript coloque tal `any` implicitamente. E isso é feito no arquivo `tsconfig.json`:
+
+```
+    "noImplicitAny": true
+```
+
+Para criar um código limpo com Typescript, você deve ter em mente o código mais descritivo possível para o funcionamento correto da aplicação.
+
+```ts
+const arrayFoo = []; // Errado e não compila
+const arrayFoo: Array<any> = []; // Compila mas não é recomendado
+// Correto
+const arrayFoo: Array<string> = [];
+const arrayFoo: Array<number> = [];
+const arrayFoo: Array<Contratacoes> = [];
+```
+
+```ts
+export class foo {
+  constructor() {}
+  criaNegociacao(): Negociacao {}
+}
+```
+
+### Um problema de não encapsulamento dos objetos dos atributos
+
+Vamos supor que você tenha criado uma classe e que qualquer objeto que contenha dentro do construtor você coloque como somente leitura. Ou seja, qualquer atributo do objeto pode ser visualizado mas não alterado.
+
+```ts
+	adiciona(): void {
+		const negociacao = this.criaNegociacao();
+		negociacao.data = new Date(); // Isso não pode acontecer
+		negociacao.data.setDate(12); // Isso também não pode acontecer
+
+		this.negociacoes.adiciona(negociacao);
+	}
+```
+
+O typescript consegue com o `readonly` apenas encapsular a primeira camada possibilitando que `setDate` altere os atributos subsequentes dele. Mesmo alterando para um getter privado a situação ficará a mesma:
+
+```ts
+export class Negociacao {
+  constructor(
+    private _data: Date,
+    public readonly quantidade: number,
+    public readonly valor: number
+  ) {}
+
+  get volume(): number {
+    return this.quantidade * this.valor;
+  }
+
+  get data(): Date {
+    return this._data;
+  }
+}
+```
+
+A solução para esse problema é trocar o retorno do getter para uma cópia do parâmetro. Para que mesmo que os objetos sejam alterados, não alterem o atributo original.
+
+```ts
+export class Negociacao {
+  constructor(
+    private _data: Date,
+    public readonly quantidade: number,
+    public readonly valor: number
+  ) {}
+
+  get volume(): number {
+    return this.quantidade * this.valor;
+  }
+
+  get data(): Date {
+    const data = new Date(this._data.getTime());
+    return data;
+  }
+}
+```
