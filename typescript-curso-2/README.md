@@ -39,7 +39,6 @@ Para que a lista seja constantemente atualizada foi optado pela forma declarativ
 
 ```ts
   template(model: Negociacoes): string {
-    // prettier-ignore
     return `
 			<table class="table table-hover table-bordered">
 				<thead>
