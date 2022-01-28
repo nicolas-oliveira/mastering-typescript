@@ -65,7 +65,7 @@ Para que a lista seja constantemente atualizada foi optado pela forma declarativ
 
 ```
 
-## Protected
+## O modificador `protected`
 
 Propriedade que garante o acesso nas classes que herdarem as propriedades, porém não garante o acesso fora do escopo das classes.
 
@@ -73,9 +73,9 @@ Propriedade que garante o acesso nas classes que herdarem as propriedades, poré
   protected element: HTMLElement;
 ```
 
-## Generics
+## Classes do tipo `generics`
 
-Os generics `<T>` funcionam como uma carta coringa que possibilita ao programador mudar qual tipo será definido dentro da classe pai.
+As classes do tipo generics `<T>` funcionam como uma carta coringa que possibilita ao programador mudar qual tipo será definido dentro da classe filha enquanto a mesma sobrescreve o método.
 
 ```ts
 export class View<T> {
@@ -97,3 +97,5 @@ export class View<T> {
 ```
 
 Basta chamar na classe filha com `extends View<string>`.
+
+## Classes do tipo `abstract`
