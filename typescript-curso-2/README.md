@@ -99,3 +99,25 @@ export class View<T> {
 Basta chamar na classe filha com `extends View<string>`.
 
 ## Classes do tipo `abstract`
+
+o `abstract` é um modificador da classe que tem como intuito definir uma classe que não pode ser definida. O mesmo pode ser colocado nos métodos indicando que é obrigatório sua implementação.
+
+```ts
+export abstract class View<T> {
+  // A classe não pode ser implementada apenas herdada
+  protected element: HTMLElement;
+
+  constructor(selector: string) {
+    this.element = document.querySelector(selector);
+  }
+
+  abstract template(model: T): string; // O método deve sobrescrito
+
+  update(model: T): void {
+    const template = this.template(model);
+    this.element.innerHTML = template;
+  }
+}
+```
+
+Tudo isso deve acontecer em tempo de desenvolvimento, ou seja, enquando o código é escrito o typescript irá indicar o erro caso haja.
