@@ -25,8 +25,9 @@ export class NegociacaoController {
   @logarTempoDeExecucao()
   public adiciona(): void {
     /*
-            Zé, você já viu isso?
-        */
+		Comentário que pode ser removido após compilar, caso isso esteja configurado
+		:)
+	*/
     const negociacao = Negociacao.criaDe(
       this.inputData.value,
       this.inputQuantidade.value,

@@ -1,4 +1,6 @@
-# Criando meu próprio micro-framework
+# Parte 2 Avançando no Typescript
+
+## Criando meu próprio micro-framework
 
 Nessa parte, para avançar com os conhecimentos de typescript é necessário um desafio maior. O View do projeto será responsável por resgatar os dados e renderizar em HTML dinamicamente conforme o código é necessário.
 
@@ -111,7 +113,7 @@ export abstract class View<T> {
     this.element = document.querySelector(selector);
   }
 
-  abstract template(model: T): string; // O método deve sobrescrito
+  abstract template(model: T): string; // O método deve ser sobrescrito na implementação
 
   update(model: T): void {
     const template = this.template(model);
@@ -121,3 +123,50 @@ export abstract class View<T> {
 ```
 
 Tudo isso deve acontecer em tempo de desenvolvimento, ou seja, enquando o código é escrito o typescript irá indicar o erro caso haja.
+
+### Classe static
+
+A classe static permite que o método seja chamado sem precisar de uma inicialização da classe. Estes métodos que recebem o parâmetro `static` não estão associados a uma determinada instância da classe. Podem ser acessados através do próprio objeto construtor da classe:
+
+```ts
+  public static criaDe(
+    data: string,
+    _quantidade: string,
+    _valor: string
+  ): Negociacao {
+    const exp = /-/g;
+    const date = new Date(data.replace(exp, ","));
+    const quantidade = parseInt(_quantidade);
+    const valor = parseFloat(_valor);
+
+    return new Negociacao(date, quantidade, valor);
+  }
+```
+
+A implementação:
+
+```ts
+const negociacao = Negociacao.criaDe(
+  this.inputData.value,
+  this.inputQuantidade.value,
+  this.inputValor.value
+);
+```
+
+### Parâmetros opcionais
+
+### removeComments e stricNullChecks
+
+```json
+{
+  "compilerOptions": {
+    "outDir": "dist/js",
+    "target": "ES6",
+    "noEmitOnError": true,
+    "noImplicitAny": true,
+    "removeComments": true, // Remove após compilar todos os comentários
+    "strictNullChecks": true // Força que qualquer null seja explicitado caso seja necessário
+  },
+  "include": ["app/*"]
+}
+```

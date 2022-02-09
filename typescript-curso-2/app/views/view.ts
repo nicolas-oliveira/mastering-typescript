@@ -2,8 +2,11 @@ export abstract class View<T> {
   protected element: HTMLElement;
   private escapar = false;
 
-  constructor(selector: string, escapar: boolean) {
+  constructor(selector: string, escapar?: boolean) {
     this.element = document.querySelector(selector);
+    if (escapar) {
+      this.escapar = escapar;
+    }
   }
 
   protected abstract template(model: T): string;
